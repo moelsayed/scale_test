@@ -1,10 +1,11 @@
 #!/bin/bash
 
 log=stacks-`date +%H%M`.log
-
-if [ $# -lt 1 ]
+time_log=time_log-`date +%H%M`.log
+too_slow=0
+if [ $# -lt 2 ]
 then
-  echo "Usage: $0 number_of_stacks"
+  echo "Usage: $0 job_name number_of_stacks"
   exit 1
 fi
 count=$1
@@ -19,8 +20,19 @@ pushd nginx
 
 for i in `seq 1 $count`
 do
-  rancher up -d -s nginx-$RANDOM | tee -a ../$log
-done 
-popd 
+  SECONDS=0
+  rancher up -d -s nginx-$i | tee -a ../$log
+  duration=$SECONDS
+  echo "stack-$i $duration" >> $time_log
+  if [ $duration -gt 60 ]
+  then
+    ((too_slow++))
+    echo "too_slow=$too_slow"
+  elif [ $duration -lt 60 ] && [ $too_slow -gt 0]
+  then
+    ((too_slow--))
+  fi
+done
+popd
 
 echo "Done. `rancher stack ls -q | wc -l` stacks running. `rancher ps -c | wc -l` containers running."
