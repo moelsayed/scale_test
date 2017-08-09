@@ -1,14 +1,15 @@
 #!/bin/bash
 
-log=stacks-`date +%H%M`.log
-time_log=time_log-`date +%H%M`.log
-too_slow=0
+
 if [ $# -lt 2 ]
 then
   echo "Usage: $0 job_name number_of_stacks"
   exit 1
 fi
-count=$1
+log=$1_stacks-`date +%H%M`.log
+time_log=$1_time_log-`date +%H%M`.log
+too_slow=0
+count=$2
 
 if [ ! -e nginx/docker-compose.yml ] || [ ! -e nginx/rancher-compose.yml ]
 then
@@ -23,12 +24,13 @@ do
   SECONDS=0
   rancher up -d -s nginx-$i | tee -a ../$log
   duration=$SECONDS
-  echo "stack-$i $duration" >> $time_log
+  echo $duration
+  echo "`date "+%F %T"` stack-$i $duration" >> $time_log
   if [ $duration -gt 60 ]
   then
     ((too_slow++))
     echo "too_slow=$too_slow"
-  elif [ $duration -lt 60 ] && [ $too_slow -gt 0]
+  elif [ $duration -lt 60 ] && [ $too_slow -gt 0 ]
   then
     ((too_slow--))
   fi
