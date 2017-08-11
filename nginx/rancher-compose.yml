@@ -1,6 +1,5 @@
 version: '2'
 services:
   # Reference the service that you want to extend
-  service1:
-    scale: 2
-
+  nginxservice:
+    scale: 4
