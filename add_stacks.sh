@@ -63,7 +63,7 @@ do
   rancher ps -c  > /dev/null
   container_ls_duration=$SECONDS
 
-  echo "`date "+%F %T"` stack-$i $duration  $stack_ls_duration $container_ls_duration" >> ../$api_time_log
+  echo "`date "+%F %T"` stack-$i $duration $stack_ls_duration $container_ls_duration" >> ../$api_time_log
 
   # check the global service reponse time.
   if [ $global_service -eq 1 ]
