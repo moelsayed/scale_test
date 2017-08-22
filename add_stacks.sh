@@ -73,7 +73,7 @@ do
     for host in host_list
     do 
       SECONDS=0
-      curl -s -f http://$host/ 2>&1 > /dev/null
+      curl -s -f http://$host:8000/ 2>&1 > /dev/null
       s=$?
       req_duration=$SECONDS
       
