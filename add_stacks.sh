@@ -29,7 +29,7 @@ pushd nginx
 for i in `seq 1 $count`
 do
   # check if we hit the slow reposne limit
-  if [ $too_slow -gt 5 ]
+  if [ $too_slow -ge 5 ]
   then
     echo "That's it."
     exit 1
