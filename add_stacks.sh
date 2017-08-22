@@ -70,7 +70,7 @@ do
   then
     total_duration=0
     failed=0
-    for host in host_list
+    for host in $host_list
     do 
       SECONDS=0
       curl -s -f http://$host:8000/ 2>&1 > /dev/null
