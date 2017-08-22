@@ -1,0 +1,16 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+  nginx-lb:
+    image: rancher/lb-service-haproxy:v0.7.9
+    ports:
+    - 8000:8000/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
+      io.rancher.scheduler.global: 'true'
