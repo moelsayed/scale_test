@@ -87,7 +87,7 @@ do
     done
     
     let avg_duration=$total_duration/$host_count
-    echo "`date "+%F %T"` stack-$i $avg_duration $failed" >> ../$avg_request_log 
+    echo "`date "+%F %T"` stack-$i $total_duration $avg_duration $failed" >> ../$avg_request_log 
 
   fi
 done
